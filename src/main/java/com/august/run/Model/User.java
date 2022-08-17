@@ -1,10 +1,13 @@
 package com.august.run.Model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
 import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,36 +18,38 @@ import javax.persistence.GenerationType;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "user")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(length = 200, nullable = false)
+    @Column(nullable = false, length = 200, unique = true)
     private String loginId;
 
-    @Column(length = 1000, nullable = false)
+    @Column(nullable = false, length = 1000)
     private String loginPw;
 
-    @Column(length = 100, nullable = false)
+    @Column(nullable = false, length = 100)
     private String loginName;
 
-    @Column(length = 1, nullable = false)
+    @Column(nullable = false, length = 1)
     private String loginGender;
 
     @Column(nullable = false)
-    private LocalDateTime loginBirth;
+    private LocalDate loginBirth;
 
     @Column(nullable = false)
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     @Column(nullable = false)
-    private LocalDateTime updatedAt;
+    private LocalDate updatedAt;
 
     @Column(nullable = true)
-    private LocalDateTime deletedAt;
+    private LocalDate deletedAt;
 
 }
