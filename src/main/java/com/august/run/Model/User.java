@@ -1,19 +1,18 @@
 package com.august.run.Model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import lombok.Builder;
 import java.time.LocalDate;
+import javax.persistence.Id;
+import java.time.LocalDateTime;
+import javax.persistence.Table;
 import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import lombok.AllArgsConstructor;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-
 
 @Entity
 @Getter
@@ -44,12 +43,12 @@ public class User {
     private LocalDate loginBirth;
 
     @Column(nullable = false)
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     @Column(nullable = false)
-    private LocalDate updatedAt;
+    private LocalDateTime updatedAt;
 
     @Column(nullable = true)
-    private LocalDate deletedAt;
+    private LocalDateTime deletedAt;
 
 }

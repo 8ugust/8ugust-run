@@ -33,12 +33,12 @@ public class LoginController {
 
     // Save User
     @PostMapping("/signUp")
-    public ResponseEntity singUp(@RequestBody UserRequest request) {
+    public ResponseEntity<HttpStatus> singUp(@RequestBody UserRequest request) {
         if (userService.signUp(request).equals("Success")) {
-            return new ResponseEntity(HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         }
         
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     
     

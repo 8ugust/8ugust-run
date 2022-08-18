@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "properties.db_secret_key",
+  "type": "java.lang.String",
+  "description": "A description for 'properties.db_secret_key'"
+}]}
