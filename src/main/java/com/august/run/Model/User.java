@@ -24,23 +24,22 @@ import javax.persistence.GenerationType;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
-
-    @Column(nullable = false, length = 200, unique = true)
-    private String loginId;
+    private String userId;
 
     @Column(nullable = false, length = 1000)
-    private String loginPw;
+    private String userPw;
 
     @Column(nullable = false, length = 100)
-    private String loginName;
+    private String name;
 
     @Column(nullable = false, length = 1)
-    private String loginGender;
+    private String gender;
+    
+    @Column(nullable = true)
+    private String phone;
 
     @Column(nullable = false)
-    private LocalDate loginBirth;
+    private LocalDate birth;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
