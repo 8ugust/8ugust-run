@@ -1,9 +1,6 @@
 package com.august.run.Controller;
 
 import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
-
 import com.august.run.Model.User;
 import lombok.RequiredArgsConstructor;
 import com.august.run.Request.UserRequest;
@@ -68,8 +65,8 @@ public class UserController {
      * @return
      */
     @PostMapping()
-    public ResponseEntity<HttpStatus> singUp(@RequestBody UserRequest request) {
-        if (userService.signUp(request).equals("Success")) {
+    public ResponseEntity<HttpStatus> save(@RequestBody UserRequest request) {
+        if (userService.save(request).equals("Success")) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         
@@ -88,7 +85,7 @@ public class UserController {
      */
     @PutMapping("{user_id}")
     public ResponseEntity<HttpStatus> update(@RequestBody UserRequest request, @PathVariable String user_id) {
-        if (userService.Update(request, user_id).equals("Success")) {
+        if (userService.update(request, user_id).equals("Success")) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
 

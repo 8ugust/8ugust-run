@@ -68,7 +68,7 @@ public class UserService {
      * @param request
      * @return
      */
-    public String signUp(UserRequest request) {
+    public String save(UserRequest request) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -98,15 +98,30 @@ public class UserService {
      * @param password
      * @return
      */
-    public String Update(UserRequest request, String user_id) {
+    public String update(UserRequest request, String user_id) {
         Optional<User> oUser = userRepository.findByUserId(user_id);
-        if (oUser.isPresent()) return "Fail";
+        if (!oUser.isPresent()) return "Fail";
 
         User user = oUser.get();
-        if (StringUtils.isNotBlank(request.getName())) user.setName(request.getName());
+        if (StringUtils.isNotBlank(request.getUserPw())) user.setUserPw(aes_encrypt(request.getUserPw()));
+        if (StringUtils.isNotBlank(request.getPhone())) user.setPhone(aes_encrypt(request.getPhone()));
+        user.setUpdatedAt(LocalDateTime.now().withNano(0));
+
         userRepository.save(user);
         return "Success";
     }
+
+
+
+
+
+    /**
+     * Delete User Data
+     * 
+     * @param password
+     * @return
+     */
+
 
 
 
