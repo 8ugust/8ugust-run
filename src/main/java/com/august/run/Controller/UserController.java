@@ -1,6 +1,11 @@
 package com.august.run.Controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.swing.RepaintManager;
+
 import com.august.run.Model.User;
 import lombok.RequiredArgsConstructor;
 import com.august.run.Request.UserRequest;
@@ -8,6 +13,7 @@ import org.springframework.http.MediaType;
 import com.august.run.Service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -90,6 +96,24 @@ public class UserController {
         }
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+
+
+
+
+    @DeleteMapping("{user_id}")
+    public Map<String, Object> delete(@PathVariable String user_id) {
+        Map<String, Object> response = new HashMap<>();
+
+        String result = userService.delete(user_id);
+        if (result == "Success") response.put("result", "Success");
+        if (result == "Fail") {
+            response.put("result", "Fail");
+            response.put("reason", "일치하는 회원 정보가 없습니다.");
+        }
+
+        return response;
     }
     
     

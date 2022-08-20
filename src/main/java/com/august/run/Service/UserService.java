@@ -121,6 +121,16 @@ public class UserService {
      * @param password
      * @return
      */
+    public String delete(String user_id) {
+        Optional<User> oUser = userRepository.findByUserId(user_id);
+        if (!oUser.isPresent()) return "Fail";
+
+        User user = oUser.get();
+        user.setDeletedAt(LocalDateTime.now().withNano(0));
+
+        userRepository.save(user);
+        return "Success";
+    }
 
 
 
