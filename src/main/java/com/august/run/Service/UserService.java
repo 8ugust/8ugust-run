@@ -11,6 +11,8 @@ import javax.crypto.spec.SecretKeySpec;
 import java.time.format.DateTimeFormatter;
 import com.august.run.Request.UserRequest;
 import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+
 import org.springframework.stereotype.Service;
 import org.springframework.stereotype.Component;
 import com.august.run.Repository.UserRepository;
@@ -75,7 +77,7 @@ public class UserService {
         userRepository.save(
             User.builder()
                 .userId(request.getUserId())
-                .userPw(aes_encrypt(request.getUserPw()))
+                .userPw(sha_encrypt(request.getUserPw(), "SHA-256"))
                 .name(request.getName())
                 .gender(request.getGender())
                 .phone(aes_encrypt(request.getPhone()))
@@ -130,6 +132,30 @@ public class UserService {
 
         userRepository.save(user);
         return "Success";
+    }
+
+
+
+
+
+    // SHA256 Encrypt
+    // messageDigest : SHA-256 / MD5
+    public String sha_encrypt(String password, String messageDigest) {
+        try {
+            MessageDigest md = MessageDigest.getInstance(messageDigest);
+            byte[] passByte = password.getBytes(); md.reset();
+            byte[] digested = md.digest(passByte);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i=0; i<digested.length; i++) {
+                sb.append(Integer.toString((digested[i]&0xff) + 0x100, 16).substring(1));
+            }
+
+            return sb.toString();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 

@@ -1,11 +1,8 @@
 package com.august.run.Controller;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import javax.swing.RepaintManager;
-
+import java.util.List;
+import java.util.HashMap;
 import com.august.run.Model.User;
 import lombok.RequiredArgsConstructor;
 import com.august.run.Request.UserRequest;
