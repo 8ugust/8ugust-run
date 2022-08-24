@@ -98,7 +98,12 @@ public class UserController {
 
 
 
-
+    /**
+     * Delete User Data
+     * 
+     * @param user_id
+     * @return
+     */
     @DeleteMapping("{user_id}")
     public Map<String, Object> delete(@PathVariable String user_id) {
         Map<String, Object> response = new HashMap<>();
