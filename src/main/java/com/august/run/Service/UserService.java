@@ -1,11 +1,16 @@
 package com.august.run.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.crypto.Cipher;
 import java.time.LocalDateTime;
+
+import com.august.run.Config.JwtTokenProvider;
 import com.august.run.Model.User;
 import java.security.MessageDigest;
 import javax.crypto.spec.SecretKeySpec;
@@ -25,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    private JwtTokenProvider jwtTokenProvider;
 
     @Value("${properties.db_secret_key}")
     private String db_secret_key;
@@ -76,7 +82,7 @@ public class UserService {
         userRepository.save(
             User.builder()
                 .userId(request.getUserId())
-                .userPw(sha_encrypt(request.getUserPw(), "SHA-256"))
+                .userPw(sha_encrypt(request.getUserPw()))
                 .name(request.getName())
                 .gender(request.getGender())
                 .phone(aes_encrypt(request.getPhone()))
@@ -137,11 +143,39 @@ public class UserService {
 
 
 
+    /** */
+    public Map<String, Object> login(String user_id, String user_pw) {
+        Map<String, Object> response = new HashMap<>();
+
+        Optional<User> oUser = userRepository.findByUserId(user_id);
+        if (!oUser.isPresent()) {
+            response.put("result", "Fail");
+            response.put("reason", "ID 또는 Password를 확인해주세요.");
+            return response;
+        }
+
+        String password = oUser.get().getUserPw();
+        String input_pw = sha_encrypt(user_pw);
+        if (input_pw != password) {
+            response.put("result", "Fail");
+            response.put("reason", "ID 또는 Password를 확인해주세요.");
+            return response;
+        }
+        
+        String jwt_token = jwtTokenProvider.createToken(user_id);
+        response.put("result", "Success");
+        response.put("token", jwt_token);
+        return response;
+    }
+
+
+
+
+
     // SHA256 Encrypt
-    // messageDigest : SHA-256 / MD5
-    public String sha_encrypt(String password, String messageDigest) {
+    public String sha_encrypt(String password) {
         try {
-            MessageDigest md = MessageDigest.getInstance(messageDigest);
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] passByte = password.getBytes(); md.reset();
             byte[] digested = md.digest(passByte);
 
@@ -156,10 +190,6 @@ public class UserService {
         }
 
     }
-
-
-
-
 
     // AES Encrypt
     public String aes_encrypt(String password) {

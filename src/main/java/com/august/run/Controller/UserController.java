@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.List;
 import java.util.HashMap;
 import com.august.run.Model.User;
+import com.august.run.Repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
 import com.august.run.Request.UserRequest;
 import org.springframework.http.MediaType;
@@ -116,6 +118,21 @@ public class UserController {
         }
 
         return response;
+    }
+
+
+
+
+
+    /**
+     * User Login
+     * 
+     * @param user
+     * @return
+     */
+    @PostMapping("/login")
+    public Map<String, Object> login(@RequestBody Map<String, String> user) {
+        return userService.login(user.get("user_id"), user.get("user_pw"));
     }
     
     
