@@ -44,7 +44,7 @@ public class UserService {
     public List<User> getUserAll() {
         List<User> users = new ArrayList<>();
         userRepository.findAll().forEach(e -> users.add(e));
-        
+         
         return users;
     }
 
