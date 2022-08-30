@@ -143,22 +143,28 @@ public class UserService {
 
 
 
-    /** */
+    /**
+     * User Login
+     * 
+     * @param user_id
+     * @param user_pw
+     * @return
+     */
     public Map<String, Object> login(String user_id, String user_pw) {
         Map<String, Object> response = new HashMap<>();
 
         Optional<User> oUser = userRepository.findByUserId(user_id);
         if (!oUser.isPresent()) {
             response.put("result", "Fail");
-            response.put("reason", "ID 또는 Password를 확인해주세요.");
+            response.put("reason", "ID를 확인해주세요.");
             return response;
         }
 
         String password = oUser.get().getUserPw();
         String input_pw = sha_encrypt(user_pw);
-        if (input_pw != password) {
+        if (!input_pw.equals(password)) {
             response.put("result", "Fail");
-            response.put("reason", "ID 또는 Password를 확인해주세요.");
+            response.put("reason", "Password를 확인해주세요.");
             return response;
         }
         
