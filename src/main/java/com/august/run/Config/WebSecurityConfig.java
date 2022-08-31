@@ -1,6 +1,5 @@
 package com.august.run.Config;
 
-import org.apache.catalina.security.SecurityConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.web.SecurityFilterChain;
