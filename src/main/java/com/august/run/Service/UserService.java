@@ -10,7 +10,6 @@ import java.util.HashMap;
 import javax.crypto.Cipher;
 import java.time.LocalDateTime;
 
-import com.august.run.Config.JwtTokenProvider;
 import com.august.run.Model.User;
 import java.security.MessageDigest;
 import javax.crypto.spec.SecretKeySpec;
@@ -30,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-    private JwtTokenProvider jwtTokenProvider;
 
     @Value("${properties.db_secret_key}")
     private String db_secret_key;
@@ -168,9 +166,7 @@ public class UserService {
             return response;
         }
         
-        String jwt_token = jwtTokenProvider.createToken(user_id);
-        response.put("result", "Success");
-        response.put("token", jwt_token);
+        
         return response;
     }
 
