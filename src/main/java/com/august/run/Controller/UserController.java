@@ -67,7 +67,7 @@ public class UserController {
      * @param request
      * @return
      */
-    @PostMapping()
+    @PostMapping("/signin")
     public ResponseEntity<HttpStatus> save(@RequestBody UserRequest request) {
         if (userService.save(request).equals("Success")) {
             return new ResponseEntity<>(HttpStatus.OK);
