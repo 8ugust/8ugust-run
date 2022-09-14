@@ -25,7 +25,7 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user")
-public class User implements UserDetails{
+public class User implements UserDetails {
 
     @Id
     private String userId;
@@ -69,7 +69,7 @@ public class User implements UserDetails{
     @Override
     public String getUsername() {
         // TODO Auto-generated method stub
-        return userId;
+        return null;
     }
 
     @Override
@@ -95,8 +95,5 @@ public class User implements UserDetails{
         // TODO Auto-generated method stub
         return false;
     }
-
-
-    
 
 }

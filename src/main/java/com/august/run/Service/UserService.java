@@ -5,17 +5,25 @@ import java.util.Map;
 import java.util.Optional;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.crypto.Cipher;
 import java.time.LocalDateTime;
 
-import com.august.run.Config.JwtTokenProvider;
 import com.august.run.Model.User;
+
+import java.security.Key;
 import java.security.MessageDigest;
 import javax.crypto.spec.SecretKeySpec;
 import java.time.format.DateTimeFormatter;
 import com.august.run.Request.UserRequest;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+
 import java.io.UnsupportedEncodingException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -30,10 +38,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-    private JwtTokenProvider jwtTokenProvider;
 
     @Value("${properties.db_secret_key}")
     private String db_secret_key;
+
+    @Value("${properties.jwt_secret_key}")
+    private String jwt_secret_key;
 
 
     /**
@@ -167,10 +177,24 @@ public class UserService {
             response.put("reason", "Password를 확인해주세요.");
             return response;
         }
+
+        byte[] keyBytes = Decoders.BASE64.decode(jwt_secret_key);
+        Key byte_secret_key = Keys.hmacShaKeyFor(keyBytes);
         
-        String jwt_token = jwtTokenProvider.createToken(user_id);
+        Date date = new Date();
+        Long now = date.getTime();
+        Date tokenExpiration = new Date(now + (30 * 60 * 1000L));
+
+        String auth = Jwts.builder()
+            .setSubject(oUser.get().getName())
+            .claim("auth", "auth_value")
+            .signWith(byte_secret_key, SignatureAlgorithm.HS256)
+            .setExpiration(tokenExpiration)
+            .compact();
+        
         response.put("result", "Success");
-        response.put("token", jwt_token);
+        response.put("auth", auth);
+        
         return response;
     }
 
