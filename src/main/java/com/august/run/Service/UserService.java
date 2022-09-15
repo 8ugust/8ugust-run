@@ -1,43 +1,39 @@
 package com.august.run.Service;
 
-import java.util.List;
 import java.util.Map;
+import java.util.List;
+import java.util.Date;
+import java.util.HashMap;
+import java.security.Key;
 import java.util.Optional;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-
 import javax.crypto.Cipher;
+import io.jsonwebtoken.Jwts;
 import java.time.LocalDateTime;
-
 import com.august.run.Model.User;
-
-import java.security.Key;
+import io.jsonwebtoken.io.Decoders;
 import java.security.MessageDigest;
+import io.jsonwebtoken.security.Keys;
 import javax.crypto.spec.SecretKeySpec;
 import java.time.format.DateTimeFormatter;
 import com.august.run.Request.UserRequest;
-
-import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
-
 import java.io.UnsupportedEncodingException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.stereotype.Component;
 import com.august.run.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
-
 
 @Service
 @Component
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Value("${properties.db_secret_key}")
     private String db_secret_key;
@@ -70,7 +66,7 @@ public class UserService {
      */
     public List<User> getUserOne(String user_id) {
         List<User> user = new ArrayList<>();
-        userRepository.findByUserId(user_id).map(e -> user.add(e));
+        userRepository.findById(user_id);
 
         return user;
     }
@@ -86,13 +82,14 @@ public class UserService {
      * @return
      */
     public String save(UserRequest request) {
+        System.out.println("Request ID : " + request.getId());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         userRepository.save(
             User.builder()
-                .userId(request.getUserId())
-                .userPw(sha_encrypt(request.getUserPw()))
+                .id(request.getId())
+                .password(bCryptPasswordEncoder.encode(request.getPassword()))
                 .name(request.getName())
                 .gender(request.getGender())
                 .phone(aes_encrypt(request.getPhone()))
@@ -116,11 +113,9 @@ public class UserService {
      * @return
      */
     public String update(UserRequest request, String user_id) {
-        Optional<User> oUser = userRepository.findByUserId(user_id);
-        if (!oUser.isPresent()) return "Fail";
+        User user = userRepository.findById(user_id);
 
-        User user = oUser.get();
-        if (StringUtils.isNotBlank(request.getUserPw())) user.setUserPw(aes_encrypt(request.getUserPw()));
+        if (StringUtils.isNotBlank(request.getPassword())) user.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
         if (StringUtils.isNotBlank(request.getPhone())) user.setPhone(aes_encrypt(request.getPhone()));
         user.setUpdatedAt(LocalDateTime.now().withNano(0));
 
@@ -139,10 +134,7 @@ public class UserService {
      * @return
      */
     public String delete(String user_id) {
-        Optional<User> oUser = userRepository.findByUserId(user_id);
-        if (!oUser.isPresent()) return "Fail";
-
-        User user = oUser.get();
+        User user = userRepository.findById(user_id);
         user.setDeletedAt(LocalDateTime.now().withNano(0));
 
         userRepository.save(user);
@@ -163,37 +155,37 @@ public class UserService {
     public Map<String, Object> login(String user_id, String user_pw) {
         Map<String, Object> response = new HashMap<>();
 
-        Optional<User> oUser = userRepository.findByUserId(user_id);
-        if (!oUser.isPresent()) {
-            response.put("result", "Fail");
-            response.put("reason", "ID를 확인해주세요.");
-            return response;
-        }
+        // Optional<User> oUser = userRepository.findByUserId(user_id);
+        // if (!oUser.isPresent()) {
+        //     response.put("result", "Fail");
+        //     response.put("reason", "ID를 확인해주세요.");
+        //     return response;
+        // }
 
-        String password = oUser.get().getUserPw();
-        String input_pw = sha_encrypt(user_pw);
-        if (!input_pw.equals(password)) {
-            response.put("result", "Fail");
-            response.put("reason", "Password를 확인해주세요.");
-            return response;
-        }
+        // String password = oUser.get().getUserPw();
+        // String input_pw = sha_encrypt(user_pw);
+        // if (!input_pw.equals(password)) {
+        //     response.put("result", "Fail");
+        //     response.put("reason", "Password를 확인해주세요.");
+        //     return response;
+        // }
 
-        byte[] keyBytes = Decoders.BASE64.decode(jwt_secret_key);
-        Key byte_secret_key = Keys.hmacShaKeyFor(keyBytes);
+        // byte[] keyBytes = Decoders.BASE64.decode(jwt_secret_key);
+        // Key byte_secret_key = Keys.hmacShaKeyFor(keyBytes);
         
-        Date date = new Date();
-        Long now = date.getTime();
-        Date tokenExpiration = new Date(now + (30 * 60 * 1000L));
+        // Date date = new Date();
+        // Long now = date.getTime();
+        // Date tokenExpiration = new Date(now + (30 * 60 * 1000L));
 
-        String auth = Jwts.builder()
-            .setSubject(oUser.get().getName())
-            .claim("auth", "auth_value")
-            .signWith(byte_secret_key, SignatureAlgorithm.HS256)
-            .setExpiration(tokenExpiration)
-            .compact();
+        // String auth = Jwts.builder()
+        //     .setSubject(oUser.get().getName())
+        //     .claim("auth", "auth_value")
+        //     .signWith(byte_secret_key, SignatureAlgorithm.HS256)
+        //     .setExpiration(tokenExpiration)
+        //     .compact();
         
-        response.put("result", "Success");
-        response.put("auth", auth);
+        // response.put("result", "Success");
+        // response.put("auth", auth);
         
         return response;
     }

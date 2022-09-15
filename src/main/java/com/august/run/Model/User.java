@@ -25,13 +25,13 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user")
-public class User implements UserDetails {
+public class User {
 
     @Id
-    private String userId;
+    private String id;
 
     @Column(nullable = false, length = 1000)
-    private String userPw;
+    private String password;
 
     @Column(nullable = false, length = 100)
     private String name;
@@ -54,46 +54,11 @@ public class User implements UserDetails {
     @Column(nullable = true)
     private LocalDateTime deletedAt;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        // TODO Auto-generated method stub
-        return false;
+    @Builder
+    public User(String id, String password, String name) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
     }
 
 }
