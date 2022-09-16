@@ -17,7 +17,7 @@ function App() {
 		<div className="App">
 			<div className='body-wrap'>
 				<div>
-					<h1>Spring Security Login Page</h1>
+					<div className='header'>Spring Security Login Page</div>
 					<div><input type={"text"} name={"username"} placeholder={"id"}></input></div>
 					<div><input type={"password"} name={"password"} placeholder={"password"}></input></div>
 					<br />
