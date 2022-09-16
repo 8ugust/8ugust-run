@@ -2,31 +2,27 @@ package com.august.run.Service;
 
 import java.util.Map;
 import java.util.List;
-import java.util.Date;
 import java.util.HashMap;
-import java.security.Key;
-import java.util.Optional;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import javax.crypto.Cipher;
-import io.jsonwebtoken.Jwts;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import com.august.run.Model.User;
-import io.jsonwebtoken.io.Decoders;
 import java.security.MessageDigest;
-import io.jsonwebtoken.security.Keys;
-import javax.crypto.spec.SecretKeySpec;
 import java.time.format.DateTimeFormatter;
-import com.august.run.Request.UserRequest;
-import io.jsonwebtoken.SignatureAlgorithm;
 import java.io.UnsupportedEncodingException;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+
+import com.august.run.Model.User;
+import com.august.run.Request.UserRequest;
+import com.august.run.Repository.UserRepository;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.stereotype.Component;
-import com.august.run.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
 @Component

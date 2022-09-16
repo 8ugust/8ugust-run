@@ -3,20 +3,16 @@ package com.august.run.Model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.Builder;
-import java.time.LocalDate;
-import javax.persistence.Id;
-import java.time.LocalDateTime;
-import java.util.Collection;
-
-import javax.persistence.Table;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import lombok.AllArgsConstructor;
 
 @Entity
 @Getter
