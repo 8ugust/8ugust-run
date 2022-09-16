@@ -33,6 +33,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Value("${properties.db_secret_key}")
@@ -82,9 +84,16 @@ public class UserService {
      * @return
      */
     public String save(UserRequest request) {
+        
         System.out.println("Request ID : " + request.getId());
+        System.out.println("Request PW : " + request.getPassword());
+        System.out.println("Request NM : " + request.getName());
+        System.out.println("Request PH : " + request.getPhone());
+        System.out.println("Request GN : " + request.getGender());
+        System.out.println("Request BR : " + request.getBirth());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        System.out.println(request.getName());
 
         userRepository.save(
             User.builder()
@@ -99,6 +108,7 @@ public class UserService {
                 .build()
         );
         
+        System.out.println("End");
         return "Success";
     }
 

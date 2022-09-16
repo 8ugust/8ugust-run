@@ -54,11 +54,4 @@ public class User {
     @Column(nullable = true)
     private LocalDateTime deletedAt;
 
-    @Builder
-    public User(String id, String password, String name) {
-        this.id = id;
-        this.name = name;
-        this.password = password;
-    }
-
 }
