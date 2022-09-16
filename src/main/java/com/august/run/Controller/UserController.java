@@ -28,6 +28,13 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @PostMapping("/test")
+    public Map<String, Object> test() {
+        Map<String, Object> response = new HashMap<>();
+        response.put("TEST", "SUCCESS");
+        return response;
+    }    
+
     /**
      * Get User Data All
      * 
