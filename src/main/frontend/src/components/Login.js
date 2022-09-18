@@ -5,16 +5,18 @@ import {BiUserCircle} from 'react-icons/bi';
 
 function Login() {
     const borderWhite = '2px solid white';
-    const [signup, setSignup] = useState(false);
-    const [account, setAccount] = useState({
+    const userData = {
         id: ['', 'Y', borderWhite],
         password: ['', 'Y', borderWhite],
         confirm: ['', 'Y', borderWhite],
         name: ['', 'Y', borderWhite],
         phone: ['', 'Y', borderWhite],
         birth: ['', 'Y', borderWhite],
-        gender: ['', 'Y', borderWhite]
-    });
+        gender: ['gender', 'Y', borderWhite]
+    };
+
+    const [signup, setSignup] = useState(false);
+    const [account, setAccount] = useState(userData);
 
     const onChnage = (event, type=null) => {
         if (type === null) {
@@ -25,24 +27,9 @@ function Login() {
         }
 
         if (type === 'reset') {
-            setAccount({
-                id: ['', 'Y', borderWhite],
-                password: ['', 'Y', borderWhite],
-                confirm: ['', 'Y', borderWhite],
-                name: ['', 'Y', borderWhite],
-                phone: ['', 'Y', borderWhite],
-                birth: ['', 'Y', borderWhite],
-                gender: ['', 'Y', borderWhite]
-            })
+            setAccount(userData)
         }
     };
-
-    const clickSignIn = () => {
-		console.log("Request");
-		axios.post("/api/user/test")
-			.then(response => console.log(response))
-			.catch(error => console.log(error));
-	};
 
     const clickSignUp = () => {
         // Empty Check
@@ -89,21 +76,21 @@ function Login() {
             <div style={{paddingTop:'100px'}}></div>
             <BiUserCircle size='5em' color='white'/>
             <div className='header'>LOG IN</div>
+            <div><input className='input_type' type={"text"} value={account.id[0]} name={"id"} placeholder={"e-mail"} onChange={onChnage} style={{border:account.id[2]}}></input></div>
+            <div><input className='input_type' type={"password"} value={account.password[0]} name={"password"} placeholder={"password"} onChange={onChnage} style={{border:account.password[2]}}></input></div>
             <div className="sign-in-wrap" style={{visibility:(signup === false ? 'visible' : 'hidden'), opacity:(signup === false ? 100 : 0)}}>
-                <input className='input_type' type={"text"} value={account.id[0]} name={"id"} placeholder={"e-mail"} onChange={onChnage} style={{border:account.id[2]}}></input>
-                <input className='input_type' type={"password"} value={account.password[0]} name={"password"} placeholder={"password"} onChange={onChnage} style={{border:account.password[2]}}></input>
-                <input className="button_type" type={"button"} value={"확인"} onClick={() => clickSignIn()}></input>
-                <input className="button_type" type={"button"} value={"회원가입"} onClick={() => setSignup(true)}></input>
+                <div>
+                    <input className="button_type" type={"button"} value={"확인"}></input>
+                    <input className="button_type" type={"button"} value={"회원가입"} onClick={() => setSignup(true)}></input>
+                </div>
             </div>
             <div className='sign-up-wrap' style={{visibility:(signup === true ? 'visible' : 'hidden'), opacity:(signup === false ? 0 : 100)}}>
-                <input className='input_type' type={"text"} value={account.id[0]} name={"id"} placeholder={"e-mail"} onChange={onChnage} style={{border:account.id[2]}}></input>
-                <input className='input_type' type={"password"} value={account.password[0]} name={"password"} placeholder={"password"} onChange={onChnage} style={{border:account.password[2]}}></input>
                 <input className='input_type' type={"password"} value={account.confirm[0]} name={"confirm"} placeholder={"password confirm"} onChange={onChnage} style={{border:account.confirm[2]}}></input>
                 <input className='input_type' type={"text"} value={account.name[0]} name={"name"} placeholder={"name"} onChange={onChnage} style={{border:account.name[2]}}></input>
                 <input className='input_type' type={"text"} value={account.phone[0]} name={"phone"} placeholder={"phone"} onChange={onChnage} style={{border:account.phone[2]}}></input>
                 <input className='input_type' type={"text"} value={account.birth[0]} name={"birth"} placeholder={"birth"} onChange={onChnage} style={{border:account.birth[2]}}></input>
                 <div>
-                        <select className='select-type' placeholder={"gender"} name={"gender"} onChange={onChnage} style={{border:account.gender[2]}}>
+                        <select className='select-type' value={account.gender[0]} placeholder={"gender"} name={"gender"} onChange={onChnage} style={{border:account.gender[2]}}>
                             <option defaultValue={"gender"} hidden>Gender</option>
                             <option value={"M"}>Male</option>
                             <option value={"F"}>Femail</option>

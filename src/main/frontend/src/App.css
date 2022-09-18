@@ -21,10 +21,11 @@
 
 .sign-in-wrap {
   transition: all 0.2s linear 0s;
-  opacity: 100;
-  z-index: 0;
-  position: fixed;
   visibility: visible;
+  position: fixed;
+  opacity: 100;
+  width: 500px;
+  z-index: 0;
 }
 
 .sign-up-wrap {
@@ -62,6 +63,10 @@
 
 @media(max-width:500px) {
   .body-wrap {
+    width: 100%;
+  }
+
+  .sign-in-wrap {
     width: 100%;
   }
 }
