@@ -1,5 +1,8 @@
 package com.august.run.Controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
@@ -52,17 +55,24 @@ public class LoginController {
      * @return
      */
     @PostMapping("/signUp")
-    public String signUp(@ModelAttribute("userRequest") UserRequest userRequest) {
+    public Map<String, Object> signUp(@ModelAttribute("userRequest") UserRequest userRequest) {
+        Map<String, Object> response = new HashMap<>();
         try {
-            System.out.println("signUp POST");
-            if (userService.save(userRequest).equals("Success")) {
-                System.out.println("OK");
+            // Log
+            String result = userService.save(userRequest);
+            if (result.equals("Success")) {
+                response.put("Result", "Success");
+            } else {
+                response.put("Result", "Error");
+                response.put("Reason", result);
             }
             
-            return "redirect:/login";
-
+            return response;
+            
         } catch (Exception e) {
-            return e.toString();
+            response.put("Result", "Error");
+            response.put("Reason", e.toString());
+            return response;
         }
     }
 }
