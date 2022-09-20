@@ -1,6 +1,7 @@
 # 러닝 캘린더 | For-Run
 <img src="https://img.shields.io/github/last-commit/8ugust/8ugust-run-api/master">
 <br />
+<img src="./src/main/frontend/src/image/readme_img.png">
 <p><b>Running Crew에서 쉽게 모임을 생성하고 출석체크 및 인원 관리를 도와주는 시스템</b></p>
 <p>
     개발 진행중<br />
