@@ -1,8 +1,6 @@
 package com.august.run.Service;
 
-import java.util.Map;
 import java.util.List;
-import java.util.HashMap;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,27 +9,32 @@ import java.time.format.DateTimeFormatter;
 import java.io.UnsupportedEncodingException;
 
 import javax.crypto.Cipher;
+import lombok.RequiredArgsConstructor;
 import javax.crypto.spec.SecretKeySpec;
 
 import com.august.run.Model.User;
 import com.august.run.Request.UserRequest;
+import com.august.run.Request.TokenRequest;
+import com.august.run.Config.JWT.TokenProvider;
 import com.august.run.Repository.UserRepository;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.stereotype.Component;
+import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 
 @Service
 @Component
+@RequiredArgsConstructor
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
-    
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final AuthenticationManagerBuilder managerBuilder;
+    private final UserRepository userRepository;
+    private final TokenProvider tokenProvider;
 
     @Value("${properties.db_secret_key}")
     private String db_secret_key;
@@ -40,24 +43,11 @@ public class UserService {
     private String jwt_secret_key;
 
 
-    /**
-     * Get All User Data
-     * 
-     * @return List
-     */
-    public List<User> getUserAll() {
-        List<User> users = new ArrayList<>();
-        userRepository.findAll().forEach(e -> users.add(e));
-         
-        return users;
-    }
-
-
 
 
 
     /**
-     * 
+     * Get User Info
      * 
      * @param request
      * @return
@@ -74,38 +64,60 @@ public class UserService {
 
 
     /**
+     * User Login
+     * 
+     * @param request
+     * @return
+     */
+    public TokenRequest login(UserRequest request) {
+        UsernamePasswordAuthenticationToken authenticationToken = request.toAuthentication();
+        Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
+
+        return tokenProvider.createToken(authentication);
+    }
+
+
+
+
+
+    /**
      * Create User Data
      * 
      * @param request
      * @return
      */
-    public String save(UserRequest request) {
-        
-        System.out.println("Request ID : " + request.getId());
-        System.out.println("Request PW : " + request.getPassword());
-        System.out.println("Request NM : " + request.getName());
-        System.out.println("Request PH : " + request.getPhone());
-        System.out.println("Request GN : " + request.getGender());
-        System.out.println("Request BR : " + request.getBirth());
+    public String signup(UserRequest request) {
+        try {
+            System.out.println("Request ID : " + request.getId());
+            System.out.println("Request PW : " + request.getPassword());
+            System.out.println("Request NM : " + request.getName());
+            System.out.println("Request PH : " + request.getPhone());
+            System.out.println("Request GN : " + request.getGender());
+            System.out.println("Request BR : " + request.getBirth());
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        System.out.println(request.getName());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            System.out.println(request.getName());
 
-        userRepository.save(
-            User.builder()
-                .id(request.getId())
-                .password(bCryptPasswordEncoder.encode(request.getPassword()))
-                .name(request.getName())
-                .gender(request.getGender())
-                .phone(aes_encrypt(request.getPhone()))
-                .birth(LocalDate.parse(request.getBirth(), formatter))
-                .createdAt(LocalDateTime.now().withNano(0))
-                .updatedAt(LocalDateTime.now().withNano(0))
-                .build()
-        );
+            userRepository.save(
+                User.builder()
+                    .id(request.getId())
+                    .password(bCryptPasswordEncoder.encode(request.getPassword()))
+                    .name(request.getName())
+                    .gender(request.getGender())
+                    .phone(aes_encrypt(request.getPhone()))
+                    .birth(LocalDate.parse(request.getBirth(), formatter))
+                    .createdAt(LocalDateTime.now().withNano(0))
+                    .updatedAt(LocalDateTime.now().withNano(0))
+                    .build()
+            );
+            
+            System.out.println("End");
+            return "success";
         
-        System.out.println("End");
-        return "Success";
+        } catch (Exception e) {
+            System.out.println(e);
+            return e.toString();
+        }
     }
 
 
@@ -145,55 +157,6 @@ public class UserService {
 
         userRepository.save(user);
         return "Success";
-    }
-
-
-
-
-
-    /**
-     * User Login
-     * 
-     * @param user_id
-     * @param user_pw
-     * @return
-     */
-    public Map<String, Object> login(String user_id, String user_pw) {
-        Map<String, Object> response = new HashMap<>();
-
-        // Optional<User> oUser = userRepository.findByUserId(user_id);
-        // if (!oUser.isPresent()) {
-        //     response.put("result", "Fail");
-        //     response.put("reason", "ID를 확인해주세요.");
-        //     return response;
-        // }
-
-        // String password = oUser.get().getUserPw();
-        // String input_pw = sha_encrypt(user_pw);
-        // if (!input_pw.equals(password)) {
-        //     response.put("result", "Fail");
-        //     response.put("reason", "Password를 확인해주세요.");
-        //     return response;
-        // }
-
-        // byte[] keyBytes = Decoders.BASE64.decode(jwt_secret_key);
-        // Key byte_secret_key = Keys.hmacShaKeyFor(keyBytes);
-        
-        // Date date = new Date();
-        // Long now = date.getTime();
-        // Date tokenExpiration = new Date(now + (30 * 60 * 1000L));
-
-        // String auth = Jwts.builder()
-        //     .setSubject(oUser.get().getName())
-        //     .claim("auth", "auth_value")
-        //     .signWith(byte_secret_key, SignatureAlgorithm.HS256)
-        //     .setExpiration(tokenExpiration)
-        //     .compact();
-        
-        // response.put("result", "Success");
-        // response.put("auth", auth);
-        
-        return response;
     }
 
 

@@ -48,27 +48,52 @@ function Login() {
             return false;
         }
 
-        const formData = new FormData();
-        formData.append('id', account.id[0]);
-        formData.append('password', account.password[0]);
-        formData.append('name', account.name[0]);
-        formData.append('phone', account.phone[0]);
-        formData.append('gender', account.gender[0]);
-        formData.append('birth', account.birth[0]);
-
-        axios.post("/signUp", formData, {headers: {'Content-Type':'mulipart/form-data'}})
+        axios.post("/auth/signup", {
+            'id': account.id[0],
+            'password': account.password[0],
+            'name': account.name[0],
+            'phone': account.phone[0],
+            'gender': account.gender[0],
+            'birth': account.birth[0]
+        })
         .then(response => {
-            if (response.status === 200) {
+            console.log(response);
+            if (response.data.result === "success") {
                 alert('회원가입이 완료되었습니다.');
                 onChnage('', 'reset');
                 setSignup(false);
-            }
+            } else throw new Error("회원가입 실패.");
         })
         .catch(error => {
             console.log(error)
             alert('서버에서 오류가 발생했습니다.');
         })
     };
+
+    const clickLogin = () => {
+        if (account.id[0] === '') {
+            alert("E-mail을 입력해주세요.");
+            return false;
+        }
+
+        if (account.password[0] === '') {
+            alert("Password를 입력해주세요.");
+            return false;
+        }
+
+        axios.post("/auth/login", {
+            'id': account.id[0],
+            'password': account.password[0]
+        })
+        .then(response => {
+            console.log(response.data);
+            alert("Login 성공");
+        })
+        .catch(error => {
+            console.log(error);
+            alert("E-Mail 또는 Password를 확인해주세요.");
+        })
+    }
 
     return (
         <>
@@ -80,7 +105,7 @@ function Login() {
             <div><input className='input_type' type={"password"} value={account.password[0]} name={"password"} placeholder={"password"} onChange={onChnage} style={{border:account.password[2]}}></input></div>
             <div className="sign-in-wrap" style={{visibility:(signup === false ? 'visible' : 'hidden'), opacity:(signup === false ? 100 : 0)}}>
                 <div>
-                    <input className="button_type" type={"button"} value={"확인"}></input>
+                    <input className="button_type" type={"button"} value={"확인"} onClick={() => clickLogin()}></input>
                     <input className="button_type" type={"button"} value={"회원가입"} onClick={() => setSignup(true)}></input>
                 </div>
             </div>

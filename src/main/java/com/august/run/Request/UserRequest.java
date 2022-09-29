@@ -3,6 +3,9 @@ package com.august.run.Request;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 import lombok.AllArgsConstructor;
 
 @Getter
@@ -16,4 +19,13 @@ public final class UserRequest {
     private String phone;
     private String gender;
     private String birth; 
+
+    /**
+     * Authentication Account
+     * 
+     * @return UsernamePasswordAuthenticationToken
+     */
+    public UsernamePasswordAuthenticationToken toAuthentication() {
+        return new UsernamePasswordAuthenticationToken(id, password);
+    }
 }

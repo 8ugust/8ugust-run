@@ -43,8 +43,8 @@ public class SecurityConfiguration {
             
             .and()
             .exceptionHandling()
-            .accessDeniedHandler(jwtAccessDeniedHandler)
             .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+            .accessDeniedHandler(jwtAccessDeniedHandler)
             
             .and()
             .authorizeRequests()
