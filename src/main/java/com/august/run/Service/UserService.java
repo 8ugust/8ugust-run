@@ -47,23 +47,6 @@ public class UserService {
 
 
     /**
-     * Get User Info
-     * 
-     * @param request
-     * @return
-     */
-    public List<User> getUserOne(String user_id) {
-        List<User> user = new ArrayList<>();
-        userRepository.findById(user_id);
-
-        return user;
-    }
-
-
-
-
-
-    /**
      * User Login
      * 
      * @param request
@@ -118,6 +101,23 @@ public class UserService {
             System.out.println(e);
             return e.toString();
         }
+    }
+
+
+
+
+
+    /**
+     * Get User Info
+     * 
+     * @param request
+     * @return
+     */
+    public List<User> getUserOne(String user_id) {
+        List<User> user = new ArrayList<>();
+        userRepository.findById(user_id);
+
+        return user;
     }
 
 
