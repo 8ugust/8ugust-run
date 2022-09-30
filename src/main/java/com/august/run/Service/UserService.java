@@ -16,6 +16,7 @@ import com.august.run.Model.User;
 import com.august.run.Request.UserRequest;
 import com.august.run.Request.TokenRequest;
 import com.august.run.Config.JWT.TokenProvider;
+import com.august.run.Config.Security.SecurityUtil;
 import com.august.run.Repository.UserRepository;
 
 import org.apache.commons.lang3.StringUtils;
@@ -113,11 +114,9 @@ public class UserService {
      * @param request
      * @return
      */
-    public List<User> getUserOne(String user_id) {
-        List<User> user = new ArrayList<>();
-        userRepository.findById(user_id);
-
-        return user;
+    public UserRequest getUserInfo() {
+        return userRepository.findById(SecurityUtil.getCurrentUserId()).map(UserRequest::userInfo)
+            .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
     }
 
 

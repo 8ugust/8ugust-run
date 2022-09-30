@@ -1,15 +1,17 @@
 package com.august.run.Request;
 
 import lombok.Getter;
-import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
+import com.august.run.Model.User;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 @Getter
-@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public final class UserRequest {
@@ -19,6 +21,17 @@ public final class UserRequest {
     private String phone;
     private String gender;
     private String birth; 
+
+    /**
+     * 
+     * @return
+     */
+    public static UserRequest userInfo(User user) {
+        return UserRequest.builder()
+            .id(user.getId())
+            .name(user.getName())
+            .build();
+    }
 
     /**
      * Authentication Account

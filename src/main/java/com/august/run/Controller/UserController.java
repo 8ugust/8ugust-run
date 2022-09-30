@@ -30,11 +30,12 @@ public class UserController {
      * @param request
      * @return
      */
-    @GetMapping("/{user_id}")
-    public ResponseEntity<List<User>> getUserOne(@PathVariable("user_id") String user_id) {
-        List<User> user = userService.getUserOne(user_id);
+    @GetMapping("/info")
+    public ResponseEntity<UserRequest> getUserInfo() {
+        UserRequest response = userService.getUserInfo();
+        System.out.println(response);
 
-        return new ResponseEntity<List<User>>(user, HttpStatus.OK);
+        return ResponseEntity.ok(response);
     }
 
 
