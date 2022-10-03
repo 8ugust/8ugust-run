@@ -1,9 +1,7 @@
 package com.august.run.Controller;
 
 import java.util.Map;
-import java.util.List;
 import java.util.HashMap;
-import com.august.run.Model.User;
 import lombok.RequiredArgsConstructor;
 import com.august.run.Request.UserRequest;
 import com.august.run.Service.UserService;

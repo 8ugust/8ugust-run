@@ -1,7 +1,5 @@
 package com.august.run.Service;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.security.MessageDigest;
@@ -16,8 +14,8 @@ import com.august.run.Model.User;
 import com.august.run.Request.UserRequest;
 import com.august.run.Request.TokenRequest;
 import com.august.run.Config.JWT.TokenProvider;
-import com.august.run.Config.Security.SecurityUtil;
 import com.august.run.Repository.UserRepository;
+import com.august.run.Config.Security.SecurityUtil;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -94,6 +92,7 @@ public class UserService {
                     .updatedAt(LocalDateTime.now().withNano(0))
                     .build()
             );
+            
             
             System.out.println("End");
             return "success";
