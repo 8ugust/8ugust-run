@@ -18,6 +18,8 @@ import com.august.run.Repository.UserRepository;
 import com.august.run.Config.Security.SecurityUtil;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.stereotype.Component;
 import org.springframework.security.core.Authentication;
@@ -30,6 +32,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 @Component
 @RequiredArgsConstructor
 public class UserService {
+    private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthenticationManagerBuilder managerBuilder;
     private final UserRepository userRepository;
@@ -70,6 +73,12 @@ public class UserService {
      */
     public String signup(UserRequest request) {
         try {
+            log.info("Request ID : " + request.getId());
+            log.info("Request PW : " + request.getPassword());
+            log.info("Request NM : " + request.getName());
+            log.info("Request PH : " + request.getPhone());
+            log.info("Request GN : " + request.getGender());
+            log.info("Request BR : " + request.getBirth());
             System.out.println("Request ID : " + request.getId());
             System.out.println("Request PW : " + request.getPassword());
             System.out.println("Request NM : " + request.getName());
