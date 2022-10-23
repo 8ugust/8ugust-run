@@ -73,18 +73,12 @@ public class UserService {
      */
     public String signup(UserRequest request) {
         try {
-            log.info("Request ID : " + request.getId());
-            log.info("Request PW : " + request.getPassword());
-            log.info("Request NM : " + request.getName());
-            log.info("Request PH : " + request.getPhone());
-            log.info("Request GN : " + request.getGender());
-            log.info("Request BR : " + request.getBirth());
-            System.out.println("Request ID : " + request.getId());
-            System.out.println("Request PW : " + request.getPassword());
-            System.out.println("Request NM : " + request.getName());
-            System.out.println("Request PH : " + request.getPhone());
-            System.out.println("Request GN : " + request.getGender());
-            System.out.println("Request BR : " + request.getBirth());
+            log.debug("Request ID : " + request.getId());
+            log.debug("Request PW : " + request.getPassword());
+            log.debug("Request NM : " + request.getName());
+            log.debug("Request PH : " + request.getPhone());
+            log.debug("Request GN : " + request.getGender());
+            log.debug("Request BR : " + request.getBirth());
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             System.out.println(request.getName());
