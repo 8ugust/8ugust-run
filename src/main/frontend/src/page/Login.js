@@ -1,10 +1,15 @@
-import axios from "axios";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
 import {BiUserCircle} from 'react-icons/bi';
-
+import Header from "../components/Header";
+import { Context } from "../App";
+import axios from "axios";
 
 function Login() {
+    const setGlobal = useContext(Context).setGlobal;
+
     const borderWhite = '2px solid white';
+    const navigate = useNavigate();
     const userData = {
         id: ['', 'Y', borderWhite],
         password: ['', 'Y', borderWhite],
@@ -70,14 +75,18 @@ function Login() {
         })
     };
 
+    // Login
     const clickLogin = () => {
+        setGlobal('onLoad', true);
         if (account.id[0] === '') {
             alert("E-mail을 입력해주세요.");
+            setGlobal('onLoad', false);
             return false;
         }
 
         if (account.password[0] === '') {
             alert("Password를 입력해주세요.");
+            setGlobal('onLoad', false);
             return false;
         }
 
@@ -87,16 +96,23 @@ function Login() {
         })
         .then(response => {
             console.log(response.data);
-            alert("Login 성공");
+            sessionStorage.setItem("access", response.data.accessToken);
+            sessionStorage.setItem("ext", response.data.tokenExpiresIn);
+            setGlobal('onLoad', false);
+            alert("Login 성공"); 
+            navigate("/home");
+            
         })
         .catch(error => {
             console.log(error);
+            setGlobal('onLoad', false);
             alert("E-Mail 또는 Password를 확인해주세요.");
         })
     }
 
     return (
         <>
+        <Header />  
         <div>
             <div style={{paddingTop:'100px'}}></div>
             <BiUserCircle size='5em' color='white'/>
