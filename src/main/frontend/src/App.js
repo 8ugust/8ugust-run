@@ -4,6 +4,7 @@ import Login from './page/Login';
 import Home from './page/Home';
 import React from 'react';
 import './App.css';
+import Header from './components/Header';
 
 // Create Context For Global Variable
 export const Context = createContext();
@@ -34,6 +35,7 @@ function App() {
 			<div className='body-wrap'>
 				<Context.Provider value={{global, setGlobal}}>
 					<BrowserRouter>
+						<Header />
 						<Routes>
 							<Route path='/' element={<Login />}></Route>
 							<Route path='/home' element={<Home />}></Route>

@@ -12,15 +12,14 @@ const Header = () => {
     const getPath = () => {
         const path = location.pathname; 
         if (path === '/') setHide(true);
-    }; useEffect(getPath, [location])
+    }; useEffect(getPath, [location]);
 
     return (
         <>
             <Loading />
             <AppBar position="static">
                 <Container maxWidth="xl">
-                    <Toolbar disableGutters style={{minHeight:(hide ? '0px' : '64px')}}>
-                    </Toolbar>
+                    <Toolbar disableGutters style={{minHeight:(hide ? '0px' : '64px')}} />
                 </Container>
             </AppBar>
         </>
