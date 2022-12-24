@@ -1,9 +1,11 @@
+import { Box, Container, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import {BiUserCircle} from 'react-icons/bi';
 import Header from "../components/Header";
 import { Context } from "../App";
 import axios from "axios";
+import Password from "../components/Password";
 
 function Login() {
     const setGlobal = useContext(Context).setGlobal;
@@ -110,6 +112,15 @@ function Login() {
         })
     }
 
+
+
+
+
+
+
+
+    
+
     return (
         <>
         <Header />  
@@ -117,8 +128,16 @@ function Login() {
             <div style={{paddingTop:'100px'}}></div>
             <BiUserCircle size='5em' color='white'/>
             <div className='header'>LOG IN</div>
-            <div><input className='input_type' type={"text"} value={account.id[0]} name={"id"} placeholder={"e-mail"} onChange={onChnage} style={{border:account.id[2]}}></input></div>
-            <div><input className='input_type' type={"password"} value={account.password[0]} name={"password"} placeholder={"password"} onChange={onChnage} style={{border:account.password[2]}}></input></div>
+            <Container>
+                <Box sx={{background:'white', borderRadius:'20px', marginBottom: '10px'}}>
+                    <TextField size='small' sx={{'& fieldset':{borderRadius: '20px'}, width:'100%'}} label='Email' />
+                </Box>
+                <Box sx={{background:'white', borderRadius:'20px', marginBottom: '10px'}}>
+                    <Password />
+                </Box>
+            </Container>
+            {/* <div><input className='input_type' type={"text"} value={account.id[0]} name={"id"} placeholder={"e-mail"} onChange={onChnage} style={{border:account.id[2]}}></input></div>
+            <div><input className='input_type' type={"password"} value={account.password[0]} name={"password"} placeholder={"password"} onChange={onChnage} style={{border:account.password[2]}}></input></div> */}
             <div className="sign-in-wrap" style={{visibility:(signup === false ? 'visible' : 'hidden'), opacity:(signup === false ? 100 : 0)}}>
                 <div>
                     <input className="button_type" type={"button"} value={"확인"} onClick={() => clickLogin()}></input>

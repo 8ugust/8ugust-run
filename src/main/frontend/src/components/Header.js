@@ -1,7 +1,7 @@
-import Container from '@material-ui/core/Container';
-import Toolbar from '@material-ui/core/Toolbar';
+import Container from '@mui/material/Container';
+import Toolbar from '@mui/material/Toolbar';
 import { useLocation } from "react-router-dom";
-import AppBar from '@material-ui/core/AppBar';
+import AppBar from '@mui/material/AppBar';
 import { useState, useEffect } from "react";
 import Loading from "./Loading";
 

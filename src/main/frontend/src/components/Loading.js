@@ -1,4 +1,5 @@
-import {CircularProgress, Box} from '@material-ui/core'
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 import { useContext } from 'react';
 import { Context } from "../App";
 
