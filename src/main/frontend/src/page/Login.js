@@ -136,8 +136,6 @@ function Login() {
                     <Password />
                 </Box>
             </Container>
-            {/* <div><input className='input_type' type={"text"} value={account.id[0]} name={"id"} placeholder={"e-mail"} onChange={onChnage} style={{border:account.id[2]}}></input></div>
-            <div><input className='input_type' type={"password"} value={account.password[0]} name={"password"} placeholder={"password"} onChange={onChnage} style={{border:account.password[2]}}></input></div> */}
             <div className="sign-in-wrap" style={{visibility:(signup === false ? 'visible' : 'hidden'), opacity:(signup === false ? 100 : 0)}}>
                 <div>
                     <input className="button_type" type={"button"} value={"확인"} onClick={() => clickLogin()}></input>
