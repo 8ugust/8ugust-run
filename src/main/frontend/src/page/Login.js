@@ -8,95 +8,118 @@ import axios from "axios";
 import Password from "../components/Password";
 import Input from "../components/Input";
 import MuiButton from "../components/MuiButton";
+import Calendar from "../components/Calendar";
+import SelectBox from "../components/SelectBox";
+import { Box } from "@mui/material";
 
 function Login() {
     const setGlobal = useContext(Context).setGlobal;
-
-    const borderWhite = '2px solid white';
     const navigate = useNavigate();
-    const userData = {
-        id: ['', 'Y', borderWhite],
-        password: ['', 'Y', borderWhite],
-        confirm: ['', 'Y', borderWhite],
-        name: ['', 'Y', borderWhite],
-        phone: ['', 'Y', borderWhite],
-        birth: ['', 'Y', borderWhite],
-        gender: ['gender', 'Y', borderWhite]
-    };
 
-    const [signup, setSignup] = useState(false);
-    const [account, setAccount] = useState(userData);
+    // const clickSignUp = () => {
+    //     // Empty Check
+    //     for (const item of Object.keys(account)) {
+    //         if (account[item][0] === '') {
+    //             alert(item + "을(를) 입력해주세요.");
+    //             setAccount({...account, [item]:['', 'N', '2px solid red']});
+    //             return false;
+    //         }
+    //     }
 
-    const onChnage = (event, type=null) => {
-        if (type === null) {
-            setAccount({
-                ...account,
-                [event.target.name]: [event.target.value, 'Y', borderWhite]
-            });
-        }
+    //     // Password Check
+    //     if (account.password[0] !== account.confirm[0]) {
+    //         alert('비밀번호가 일치하지 않습니다.');
+    //         setAccount({...account, ['confirm']:['', 'N', '2px solid red']});
+    //         return false;
+    //     }
 
-        if (type === 'reset') {
-            setAccount(userData)
-        }
-    };
+    //     axios.post("/auth/signup", {
+    //         'id': account.id[0],
+    //         'password': account.password[0],
+    //         'name': account.name[0],
+    //         'phone': account.phone[0],
+    //         'gender': account.gender[0],
+    //         'birth': account.birth[0]
+    //     })
+    //     .then(response => {
+    //         console.log(response);
+    //         if (response.data.result === "success") {
+    //             alert('회원가입이 완료되었습니다.');
+    //             onChnage('', 'reset');
+    //             setSignup(false);
+    //         } else throw new Error("회원가입 실패.");
+    //     })
+    //     .catch(error => {
+    //         console.log(error)
+    //         alert('서버에서 오류가 발생했습니다.');
+    //     })
+    // };
 
-    const clickSignUp = () => {
-        // Empty Check
-        for (const item of Object.keys(account)) {
-            if (account[item][0] === '') {
-                alert(item + "을(를) 입력해주세요.");
-                setAccount({...account, [item]:['', 'N', '2px solid red']});
-                return false;
-            }
-        }
+    // // Login
+    // const clickLogin = () => {
+    //     setGlobal('onLoad', true);
+    //     if (account.id[0] === '') {
+    //         alert("E-mail을 입력해주세요.");
+    //         setGlobal('onLoad', false);
+    //         return false;
+    //     }
 
-        // Password Check
-        if (account.password[0] !== account.confirm[0]) {
-            alert('비밀번호가 일치하지 않습니다.');
-            setAccount({...account, ['confirm']:['', 'N', '2px solid red']});
-            return false;
-        }
+    //     if (account.password[0] === '') {
+    //         alert("Password를 입력해주세요.");
+    //         setGlobal('onLoad', false);
+    //         return false;
+    //     }
 
-        axios.post("/auth/signup", {
-            'id': account.id[0],
-            'password': account.password[0],
-            'name': account.name[0],
-            'phone': account.phone[0],
-            'gender': account.gender[0],
-            'birth': account.birth[0]
-        })
-        .then(response => {
-            console.log(response);
-            if (response.data.result === "success") {
-                alert('회원가입이 완료되었습니다.');
-                onChnage('', 'reset');
-                setSignup(false);
-            } else throw new Error("회원가입 실패.");
-        })
-        .catch(error => {
-            console.log(error)
-            alert('서버에서 오류가 발생했습니다.');
-        })
-    };
+    //     axios.post("/auth/login", {
+    //         'id': account.id[0],
+    //         'password': account.password[0]
+    //     })
+    //     .then(response => {
+    //         console.log(response.data);
+    //         sessionStorage.setItem("access", response.data.accessToken);
+    //         sessionStorage.setItem("ext", response.data.tokenExpiresIn);
+    //         setGlobal('onLoad', false);
+    //         alert("Login 성공"); 
+    //         navigate("/home");
+            
+    //     })
+    //     .catch(error => {
+    //         console.log(error);
+    //         setGlobal('onLoad', false);
+    //         alert("E-Mail 또는 Password를 확인해주세요.");
+    //     })
+    // }
 
-    // Login
+    const [loginEm, setLoginEm] = useState('');
+    const [loginPw, setLoginPw] = useState('');
+    const [isSignUp, setIsSignUp] = useState(false);
+    
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirm, setConfirm] = useState('');
+    const [name, setName] = useState('');
+    const [birth, setBirth] = useState(new Date());
+    const [gender, setGender] = useState('');
+    const [phone, setPhone] = useState('');
+    const [insta, setInsta] = useState('');
+
     const clickLogin = () => {
         setGlobal('onLoad', true);
-        if (account.id[0] === '') {
-            alert("E-mail을 입력해주세요.");
+        if (loginEm === '') {
+            alert('Email을 입력해주세요.');
             setGlobal('onLoad', false);
             return false;
         }
 
-        if (account.password[0] === '') {
-            alert("Password를 입력해주세요.");
+        if (loginPw === '') {
+            alert('Password를 입력해주세요.');
             setGlobal('onLoad', false);
             return false;
         }
 
         axios.post("/auth/login", {
-            'id': account.id[0],
-            'password': account.password[0]
+            'id': loginEm,
+            'password': loginPw
         })
         .then(response => {
             console.log(response.data);
@@ -105,78 +128,52 @@ function Login() {
             setGlobal('onLoad', false);
             alert("Login 성공"); 
             navigate("/home");
-            
         })
         .catch(error => {
             console.log(error);
             setGlobal('onLoad', false);
             alert("E-Mail 또는 Password를 확인해주세요.");
         })
-    }
-
-
-
-
-
-
-
+    } 
 
     
 
     return (
         <>
-        <Header />  
         <div>
-            <Container style={{height:'calc(100vh/5 * 2)'}}>
+            <Container style={{height:(isSignUp) ? '10vh' : '40vh', transition: 'all 0.2s linear 0s'}}>
                 <FaRunning size='5em' color='white' style={{paddingTop:'40%'}}/>
                 <div className='header'>Running</div>
             </Container>
-            <Container className='login_container'>
-                <Container>
+            <Container className='login_container' style={{height:(isSignUp) ? '90vh' : '60vh'}}>
+                <Container style={{display:(isSignUp) ? 'none' : 'block'}}>
                     <div className="header" style={{fontSize:'25px'}}>
-                        <span style={{background:'linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>LOGIN</span>
+                        <span className="login_header">LOGIN</span>
                     </div>
-                    <Input />
+                    <Input label={'Email'} value={loginEm} fnChange={setLoginEm}/>
+                    <Password value={loginPw} fnChange={setLoginPw}/>
+                    <MuiButton text={'LOGIN'} clickEvent={clickLogin}/>
+                    <MuiButton text={'SIGN UP'} clickEvent={() => setIsSignUp(true)}/>
+                </Container>
+                <Container style={{display:(isSignUp) ? 'block' : 'none'}}>
+                    <div className="header" style={{fontSize:'25px'}}>
+                        <span className="login_header">SIGN UP</span>
+                    </div>
+                    <Input label={'Email*'}/>
                     <Password />
-                    <MuiButton />
-                    <MuiButton />
+                    <Password isCheck={true}/>
+                    <Input label={'Name*'}/>
+                    <Box sx={{display:'flex', flexDirection:'row', marginBottom:'20px'}}>
+                        <Calendar label={'Birth*'} date={birth} fnChange={setBirth}/>
+                        <div style={{marginLeft:'auto'}}/>
+                        <SelectBox label={'Gender*'}/>
+                    </Box>
+                    <Input label={'Phone*'}/>
+                    <Input label={'Instagram'}/>
+                    <MuiButton text={'SIGN UP'} clickEvent={clickLogin}/>
+                    <div style={{color:'gray'}} onClick={() => setIsSignUp(false)}>Cancle</div>
                 </Container>
             </Container>
-
-
-
-
-
-
-
-
-            <div style={{display:'none'}}>
-                <Container>
-                    <Input />
-                    <Password />
-                </Container>
-                <div className="sign-in-wrap" style={{visibility:(signup === false ? 'visible' : 'hidden'), opacity:(signup === false ? 100 : 0)}}>
-                    <div>
-                        <input className="button_type" type={"button"} value={"확인"} onClick={() => clickLogin()}></input>
-                        <input className="button_type" type={"button"} value={"회원가입"} onClick={() => setSignup(true)}></input>
-                    </div>
-                </div>
-                <div className='sign-up-wrap' style={{visibility:(signup === true ? 'visible' : 'hidden'), opacity:(signup === false ? 0 : 100)}}>
-                    <input className='input_type' type={"password"} value={account.confirm[0]} name={"confirm"} placeholder={"password confirm"} onChange={onChnage} style={{border:account.confirm[2]}}></input>
-                    <input className='input_type' type={"text"} value={account.name[0]} name={"name"} placeholder={"name"} onChange={onChnage} style={{border:account.name[2]}}></input>
-                    <input className='input_type' type={"text"} value={account.phone[0]} name={"phone"} placeholder={"phone"} onChange={onChnage} style={{border:account.phone[2]}}></input>
-                    <input className='input_type' type={"text"} value={account.birth[0]} name={"birth"} placeholder={"birth"} onChange={onChnage} style={{border:account.birth[2]}}></input>
-                    <div>
-                            <select className='select-type' value={account.gender[0]} placeholder={"gender"} name={"gender"} onChange={onChnage} style={{border:account.gender[2]}}>
-                                <option defaultValue={"gender"} hidden>Gender</option>
-                                <option value={"M"}>Male</option>
-                                <option value={"F"}>Femail</option>
-                            </select>
-                    </div>  
-                    <input className="button_type" type={"button"} value={"계속"} onClick={() => clickSignUp()}></input>
-                    <input className="button_type" type={"button"} value={"취소"} onClick={() => {setSignup(false); onChnage('', 'reset')}}></input>
-                </div>
-            </div>
         </div>
         </>
     )

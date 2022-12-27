@@ -1,24 +1,31 @@
-import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Box } from "@mui/material";
+import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Box, fabClasses } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-const Password = () => {
+const Password = ({id, value, fnChange, showFg=false, isCheck=false}) => {
 
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
 
-    const navigate = useNavigate();
+    const styled_component = {
+        display:(showFg) ? 'block' : 'none',
+        paddingRight: '10px',
+        float: 'right',
+        color: 'gray',
+    }
+
 
     return (<>
-        <Box sx={{background:'white', borderRadius:'20px', marginBottom: '40px'}}>
+        <Box sx={{background:'white', borderRadius:'20px', marginBottom: (showFg) ? '40px' : '20px'}}>
             <FormControl size='small' sx={{'& fieldset':{borderRadius: '20px'}, width: '100%'}}>
-                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                <InputLabel htmlFor="outlined-adornment-password">{(isCheck) ? 'Password-Check*' : 'Password'}</InputLabel>
                 <OutlinedInput
-                    id="outlined-adornment-password"
+                    id={id} value={value} onChange={(v) => fnChange(v.target.value)}
                     type={showPassword ? 'text' : 'password'}
                     endAdornment={
                         <InputAdornment position="end">
@@ -35,7 +42,7 @@ const Password = () => {
                     label="Password"
                 />
             </FormControl>
-            <div style={{float:'right', paddingRight:'10px', color:'gray'}} onClick={() => navigate('/Forgot-Password')}>Forgot Your Password</div>
+            <div style={styled_component} onClick={() => navigate('/Forgot-Password')}>Forgot Your Password</div>
         </Box>
     </>);
 }

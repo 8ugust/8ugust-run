@@ -6,9 +6,21 @@ import { Context } from "../App";
 const Loading = () => {
     const global = useContext(Context).global;
 
+    const styled_component = {
+        display: (global.onLoad ? 'block' : 'none'),
+        position: 'absolute',
+        background: 'black',
+        height: '100vh',
+        width: '100vw',
+        opacity:'50%',
+        zIndex: 999,
+    }
+
     return (
-        <Box sx={{ display: 'flex' }} style={{position:'absolute', width:'500px', paddingTop:'calc((100%-40px)/2)', display:(global.onLoad ? 'block' : 'none')}}>
-            <CircularProgress style={{position:'relative', color:'white'}}/>
+        <Box sx={{ display: 'flex' }} style={styled_component}>
+            <Box style={{paddingTop:'50vh', zIndex:1000}}>
+                <CircularProgress style={{position:'relative', color:'white'}}/>
+            </Box>
         </Box>
     );
 }
