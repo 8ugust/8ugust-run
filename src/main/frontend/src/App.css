@@ -61,6 +61,25 @@
   font-weight: bold;
 }
 
+.login_container {
+  height: calc(100vh/5 * 3);
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  background: white;
+  padding: 20px;
+}
+
+.button-mui {
+  background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
+  height: 50px;
+  width: 70%;
+}
+
+.forgot {
+  color: gray;
+  cursor: pointer;
+}
+
 @media(max-width:500px) {
   .body-wrap {
     width: 100%;

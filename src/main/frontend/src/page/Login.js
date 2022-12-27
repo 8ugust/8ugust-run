@@ -1,11 +1,13 @@
-import { Box, Container, TextField } from "@mui/material";
+import { Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
-import {BiUserCircle} from 'react-icons/bi';
 import Header from "../components/Header";
+import { FaRunning } from 'react-icons/fa'
 import { Context } from "../App";
 import axios from "axios";
 import Password from "../components/Password";
+import Input from "../components/Input";
+import MuiButton from "../components/MuiButton";
 
 function Login() {
     const setGlobal = useContext(Context).setGlobal;
@@ -125,37 +127,55 @@ function Login() {
         <>
         <Header />  
         <div>
-            <div style={{paddingTop:'100px'}}></div>
-            <BiUserCircle size='5em' color='white'/>
-            <div className='header'>LOG IN</div>
-            <Container>
-                <Box sx={{background:'white', borderRadius:'20px', marginBottom: '10px'}}>
-                    <TextField size='small' sx={{'& fieldset':{borderRadius: '20px'}, width:'100%'}} label='Email' />
-                </Box>
-                <Box sx={{background:'white', borderRadius:'20px', marginBottom: '10px'}}>
-                    <Password />
-                </Box>
+            <Container style={{height:'calc(100vh/5 * 2)'}}>
+                <FaRunning size='5em' color='white' style={{paddingTop:'40%'}}/>
+                <div className='header'>Running</div>
             </Container>
-            <div className="sign-in-wrap" style={{visibility:(signup === false ? 'visible' : 'hidden'), opacity:(signup === false ? 100 : 0)}}>
-                <div>
-                    <input className="button_type" type={"button"} value={"확인"} onClick={() => clickLogin()}></input>
-                    <input className="button_type" type={"button"} value={"회원가입"} onClick={() => setSignup(true)}></input>
+            <Container className='login_container'>
+                <Container>
+                    <div className="header" style={{fontSize:'25px'}}>
+                        <span style={{background:'linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>LOGIN</span>
+                    </div>
+                    <Input />
+                    <Password />
+                    <MuiButton />
+                    <MuiButton />
+                </Container>
+            </Container>
+
+
+
+
+
+
+
+
+            <div style={{display:'none'}}>
+                <Container>
+                    <Input />
+                    <Password />
+                </Container>
+                <div className="sign-in-wrap" style={{visibility:(signup === false ? 'visible' : 'hidden'), opacity:(signup === false ? 100 : 0)}}>
+                    <div>
+                        <input className="button_type" type={"button"} value={"확인"} onClick={() => clickLogin()}></input>
+                        <input className="button_type" type={"button"} value={"회원가입"} onClick={() => setSignup(true)}></input>
+                    </div>
                 </div>
-            </div>
-            <div className='sign-up-wrap' style={{visibility:(signup === true ? 'visible' : 'hidden'), opacity:(signup === false ? 0 : 100)}}>
-                <input className='input_type' type={"password"} value={account.confirm[0]} name={"confirm"} placeholder={"password confirm"} onChange={onChnage} style={{border:account.confirm[2]}}></input>
-                <input className='input_type' type={"text"} value={account.name[0]} name={"name"} placeholder={"name"} onChange={onChnage} style={{border:account.name[2]}}></input>
-                <input className='input_type' type={"text"} value={account.phone[0]} name={"phone"} placeholder={"phone"} onChange={onChnage} style={{border:account.phone[2]}}></input>
-                <input className='input_type' type={"text"} value={account.birth[0]} name={"birth"} placeholder={"birth"} onChange={onChnage} style={{border:account.birth[2]}}></input>
-                <div>
-                        <select className='select-type' value={account.gender[0]} placeholder={"gender"} name={"gender"} onChange={onChnage} style={{border:account.gender[2]}}>
-                            <option defaultValue={"gender"} hidden>Gender</option>
-                            <option value={"M"}>Male</option>
-                            <option value={"F"}>Femail</option>
-                        </select>
-                </div>  
-                <input className="button_type" type={"button"} value={"계속"} onClick={() => clickSignUp()}></input>
-                <input className="button_type" type={"button"} value={"취소"} onClick={() => {setSignup(false); onChnage('', 'reset')}}></input>
+                <div className='sign-up-wrap' style={{visibility:(signup === true ? 'visible' : 'hidden'), opacity:(signup === false ? 0 : 100)}}>
+                    <input className='input_type' type={"password"} value={account.confirm[0]} name={"confirm"} placeholder={"password confirm"} onChange={onChnage} style={{border:account.confirm[2]}}></input>
+                    <input className='input_type' type={"text"} value={account.name[0]} name={"name"} placeholder={"name"} onChange={onChnage} style={{border:account.name[2]}}></input>
+                    <input className='input_type' type={"text"} value={account.phone[0]} name={"phone"} placeholder={"phone"} onChange={onChnage} style={{border:account.phone[2]}}></input>
+                    <input className='input_type' type={"text"} value={account.birth[0]} name={"birth"} placeholder={"birth"} onChange={onChnage} style={{border:account.birth[2]}}></input>
+                    <div>
+                            <select className='select-type' value={account.gender[0]} placeholder={"gender"} name={"gender"} onChange={onChnage} style={{border:account.gender[2]}}>
+                                <option defaultValue={"gender"} hidden>Gender</option>
+                                <option value={"M"}>Male</option>
+                                <option value={"F"}>Femail</option>
+                            </select>
+                    </div>  
+                    <input className="button_type" type={"button"} value={"계속"} onClick={() => clickSignUp()}></input>
+                    <input className="button_type" type={"button"} value={"취소"} onClick={() => {setSignup(false); onChnage('', 'reset')}}></input>
+                </div>
             </div>
         </div>
         </>
