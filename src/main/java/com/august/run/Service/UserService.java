@@ -79,6 +79,7 @@ public class UserService {
             log.debug("Request PH : " + request.getPhone());
             log.debug("Request GN : " + request.getGender());
             log.debug("Request BR : " + request.getBirth());
+            log.debug("Request IS : " + request.getInstagram());
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             System.out.println(request.getName());
@@ -88,9 +89,10 @@ public class UserService {
                     .id(request.getId())
                     .password(bCryptPasswordEncoder.encode(request.getPassword()))
                     .name(request.getName())
+                    .birth(LocalDate.parse(request.getBirth(), formatter))
                     .gender(request.getGender())
                     .phone(aes_encrypt(request.getPhone()))
-                    .birth(LocalDate.parse(request.getBirth(), formatter))
+                    .instagram(request.getInstagram())
                     .createdAt(LocalDateTime.now().withNano(0))
                     .updatedAt(LocalDateTime.now().withNano(0))
                     .build()

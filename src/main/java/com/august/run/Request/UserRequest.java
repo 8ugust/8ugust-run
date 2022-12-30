@@ -21,6 +21,7 @@ public final class UserRequest {
     private String phone;
     private String gender;
     private String birth; 
+    private String instagram;
 
     /**
      * 

@@ -1,9 +1,9 @@
-import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Box, fabClasses } from "@mui/material";
+import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Box } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-const Password = ({id, value, fnChange, showFg=false, isCheck=false}) => {
+const Password = ({id, value, fnChange, showFg=false, isCheck=false, req=false}) => {
 
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
@@ -23,7 +23,7 @@ const Password = ({id, value, fnChange, showFg=false, isCheck=false}) => {
     return (<>
         <Box sx={{background:'white', borderRadius:'20px', marginBottom: (showFg) ? '40px' : '20px'}}>
             <FormControl size='small' sx={{'& fieldset':{borderRadius: '20px'}, width: '100%'}}>
-                <InputLabel htmlFor="outlined-adornment-password">{(isCheck) ? 'Password-Check*' : 'Password'}</InputLabel>
+                <InputLabel htmlFor="outlined-adornment-password"  required={req}>{(isCheck) ? 'Password Check' : 'Password'}</InputLabel>
                 <OutlinedInput
                     id={id} value={value} onChange={(v) => fnChange(v.target.value)}
                     type={showPassword ? 'text' : 'password'}

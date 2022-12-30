@@ -32,14 +32,17 @@ public class User {
     @Column(nullable = false, length = 100)
     private String name;
 
+    @Column(nullable = false)
+    private LocalDate birth;
+
     @Column(nullable = false, length = 1)
     private String gender;
     
     @Column(nullable = true)
     private String phone;
 
-    @Column(nullable = false)
-    private LocalDate birth;
+    @Column(nullable = true, length = 100)
+    private String instagram;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;

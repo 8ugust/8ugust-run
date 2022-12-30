@@ -19,49 +19,8 @@
   margin-bottom: 20px;
 }
 
-.sign-in-wrap {
-  transition: all 0.2s linear 0s;
-  visibility: visible;
-  position: fixed;
-  opacity: 100;
-  width: 500px;
-  z-index: 0;
-}
-
-.sign-up-wrap {
-  transition: all 0.2s linear 0s;
-  opacity: 0;
-  z-index: 10;
-  position: relative;
-  visibility: hidden;
-}
-
-.input_type {
-  border-radius: 20px;
-  padding-left: 20px;
-  margin-top: 10px;
-  height: 30px;
-  width: 80%;
-}
-
-.select-type {
-  border-radius: 20px;
-  padding-left: 20px;
-  margin-top: 10px;
-  border: none;
-  height: 30px;
-  width: 100px;
-}
-
-.button_type {
-  padding: 10px 20px;
-  margin: 20px 10px;
-  border-radius: 10px;
-  border: none;
-  font-weight: bold;
-}
-
-
+.cancle { color: gray; cursor: pointer;}
+.cancle:hover { text-decoration: underline; }
 
 
 
