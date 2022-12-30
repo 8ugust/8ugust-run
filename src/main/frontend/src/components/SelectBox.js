@@ -14,10 +14,10 @@ const SelectBox = ({label, options, value, fnChange, req=false}) => {
             <Autocomplete 
                 options={options || default_options} 
                 getOptionLabel={option => option.name}
+                onChange={e => fnChange(e.target.value)}
                 isOptionEqualToValue={(option, value) => option.id === value.id}
                 renderInput={p => <TextField 
-                    {...p} size='small'
-                    value={value} onChange={e => fnChange(e.target.value)}
+                    {...p} size='small' value={value}
                     label={label || 'Combo'} required={req}
                     sx={{'& fieldset':{borderRadius: '20px'}}}
                 />}

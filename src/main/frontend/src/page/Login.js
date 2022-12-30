@@ -79,13 +79,18 @@ function Login() {
             return false;
         }
 
+        // Set Birth
+        const birthday = new Date(birth);
+        const strBirth = birthday.getFullYear() + '-' + birthday.getMonth() + '-' + birthday.getDay();
+
+        console.log(new Date(birth).getFullYear());
         axios.post("/auth/signup", {
             'id': email,
             'password': password,
             'name': name,
             'phone': phone,
             'gender': gender,
-            'birth': birth,
+            'birth': strBirth,
             'instagram': insta
         })
         .then(response => {
